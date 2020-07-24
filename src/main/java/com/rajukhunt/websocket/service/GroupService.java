@@ -1,14 +1,15 @@
 package com.rajukhunt.websocket.service;
 
-import java.util.List;
-
+import com.rajukhunt.websocket.bean.GenericRes;
 import com.rajukhunt.websocket.bean.GroupBean;
 
 public interface GroupService {
 
-	public GroupBean createGroup(GroupBean bean) throws Exception;
+	public GenericRes<?> createGroup(GroupBean bean) throws Exception;
 
-	public void joinMember(GroupBean bean) throws Exception;
+	public GenericRes<?> joinMember(GroupBean bean) throws Exception;
 
-	public List<GroupBean> getList(GroupBean bean) throws Exception;
+	public GenericRes<?> leaveMember(GroupBean bean) throws Exception;
+
+	public GenericRes<?> getList(GroupBean bean) throws Exception;
 }

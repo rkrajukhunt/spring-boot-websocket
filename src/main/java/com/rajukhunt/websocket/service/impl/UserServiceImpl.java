@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rajukhunt.websocket.bean.GenericRes;
-import com.rajukhunt.websocket.bean.ResponseEnum;
 import com.rajukhunt.websocket.bean.UserBean;
 import com.rajukhunt.websocket.model.User;
 import com.rajukhunt.websocket.repo.UserRepo;
 import com.rajukhunt.websocket.service.UserService;
+import com.rajukhunt.websocket.utils.ResponseEnum;
 import com.rajukhunt.websocket.utils.ResponseUtils;
 
 @Service

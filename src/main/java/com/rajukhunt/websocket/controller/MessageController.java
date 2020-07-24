@@ -1,7 +1,5 @@
 package com.rajukhunt.websocket.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Controller;
 
 import com.rajukhunt.websocket.bean.GenericRes;
 import com.rajukhunt.websocket.bean.GroupBean;
-import com.rajukhunt.websocket.bean.ResponseEnum;
 import com.rajukhunt.websocket.bean.UserBean;
 import com.rajukhunt.websocket.service.GroupService;
 import com.rajukhunt.websocket.service.UserService;
@@ -40,22 +37,26 @@ public class MessageController implements ResponseUtils{
   }
 
   @MessageMapping("/group.create")
-  @SendToUser("/topic/group.create")
-  public GroupBean createGroup(@Payload GroupBean bean) throws Exception {
-    GroupBean _bean = groupService.createGroup(bean);
-    return _bean;
+  @SendToUser("/topic/websocket_response")
+  public GenericRes<?> createGroup(@Payload GroupBean bean) throws Exception {
+	  return groupService.createGroup(bean);
   }
 
   @MessageMapping("/group.join")
-  @SendToUser("/topic/group.join")
-  public String joinGroup(@Payload GroupBean bean) throws Exception {
-    groupService.joinMember(bean);
-    return "Successfully Joined!!!";
+  @SendToUser("/topic/websocket_response")
+  public GenericRes<?> joinGroup(@Payload GroupBean bean) throws Exception {
+    return groupService.joinMember(bean);
   }
-
+  
+  @MessageMapping("/group.leave")
+  @SendToUser("/topic/websocket_response")
+  public GenericRes<?> leaveGroup(@Payload GroupBean bean) throws Exception {
+    return groupService.leaveMember(bean);
+  }
+  
   @MessageMapping("/group.list")
-  @SendToUser("/topic/group.list")
-  public List<GroupBean> groupList(@Payload GroupBean bean) throws Exception {
+  @SendToUser("/topic/websocket_response")
+  public GenericRes<?> groupList(@Payload GroupBean bean) throws Exception {
     return groupService.getList(bean);
   }
 
