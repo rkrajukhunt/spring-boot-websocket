@@ -28,7 +28,8 @@ public class UserServiceImpl implements UserService{
 		User entity = new User();
 		entity.setName(bean.getName());
 		entity.setEmail(bean.getEmail());
-		return ResponseUtils.success(entity,ResponseEnum.SIGNUP_RESPONSE);
+		
+		return ResponseUtils.success(userRepo.save(entity).toBean(),ResponseEnum.SIGNUP_RESPONSE);
 	}
 
 	@Override
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService{
 		try {
 			Optional<User> obj = userRepo.findByEmail(bean.getEmail());
 			if(obj.isPresent())
-				return ResponseUtils.success(obj.get());
+				return ResponseUtils.success(obj.get().toBean(),ResponseEnum.SIGNIN_RESPONSE);
 			else
 				return ResponseUtils.error("User doesn't found !!!", ResponseEnum.SIGNIN_RESPONSE,"400");
 		} catch (Exception e) {

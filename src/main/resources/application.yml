@@ -19,3 +19,5 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
     show-sql: true
+chat:
+  not-allow-time: 10

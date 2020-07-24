@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 
 import com.rajukhunt.websocket.bean.GenericRes;
 import com.rajukhunt.websocket.bean.GroupBean;
+import com.rajukhunt.websocket.bean.MessageBean;
 import com.rajukhunt.websocket.bean.UserBean;
+import com.rajukhunt.websocket.model.Message;
 import com.rajukhunt.websocket.service.GroupService;
 import com.rajukhunt.websocket.service.UserService;
 import com.rajukhunt.websocket.utils.ResponseUtils;
@@ -60,6 +62,19 @@ public class MessageController implements ResponseUtils{
     return groupService.getList(bean);
   }
 
+  @MessageMapping("/group.message.list")
+  @SendToUser("/topic/chat_list")
+  public GenericRes<?> messageList(@Payload MessageBean bean) throws Exception {
+	  return groupService.messageList(bean);
+  }
+  
+  @MessageMapping("/group.message")
+  @SendToUser("/topic/chat_message_status")
+  public GenericRes<?> message(@Payload MessageBean bean) throws Exception {
+	  return groupService.sendMessage(bean);
+  }
+  
+  
   @MessageExceptionHandler
   @SendToUser("/queue/errors")
   public String handleException(Throwable exception, @Header(name = "simpSessionId") String sessionId) {

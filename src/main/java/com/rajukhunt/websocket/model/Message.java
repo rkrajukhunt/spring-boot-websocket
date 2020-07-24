@@ -3,12 +3,17 @@ package com.rajukhunt.websocket.model;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.rajukhunt.websocket.bean.MessageBean;
 
 @Entity
 @Table(name = "messages")
@@ -18,11 +23,20 @@ public class Message {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String message;
-	private Long sender;
+
 	private Date createdAt;
 	@ManyToOne
 	@JoinColumn(name = "room_id")
 	private Room room;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "sender_id")
+	private User sender;
+	@Enumerated(EnumType.STRING)
+	private MessageType type;
+
+	public enum MessageType {
+		LEAVE, JOIN, MESSAGE
+	}
 
 	public Long getId() {
 		return id;
@@ -40,14 +54,6 @@ public class Message {
 		this.message = message;
 	}
 
-	public Long getSender() {
-		return sender;
-	}
-
-	public void setSender(Long sender) {
-		this.sender = sender;
-	}
-
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -62,6 +68,31 @@ public class Message {
 
 	public void setRoom(Room room) {
 		this.room = room;
+	}
+
+	public MessageType getType() {
+		return type;
+	}
+
+	public void setType(MessageType type) {
+		this.type = type;
+	}
+
+	public User getSender() {
+		return sender;
+	}
+
+	public void setSender(User sender) {
+		this.sender = sender;
+	}
+	
+	public MessageBean toBean() {
+		MessageBean bean = new MessageBean();
+		bean.setRoomId(this.room.getId());
+		bean.setMessage(this.message);
+		bean.setSender(this.sender.toBean());
+		bean.setTime(this.createdAt.getTime());
+		return bean;
 	}
 
 }
