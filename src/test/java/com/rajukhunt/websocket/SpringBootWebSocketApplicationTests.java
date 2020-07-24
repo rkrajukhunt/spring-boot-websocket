@@ -1,10 +1,10 @@
-package com.chat.server;
+package com.rajukhunt.websocket;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ChatServerApplicationTests {
+class SpringBootWebSocketApplicationTests {
 
 	@Test
 	void contextLoads() {
