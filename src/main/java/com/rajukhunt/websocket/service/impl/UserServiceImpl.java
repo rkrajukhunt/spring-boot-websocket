@@ -19,6 +19,9 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserRepo userRepo;
 
+	@Autowired
+	private GroupServiceImpl groupServiceImpl;
+	
 	@Override
 	public GenericRes<?> register(UserBean bean) throws Exception {
 		Optional<User> userOp = userRepo.findByEmail(bean.getEmail());
@@ -28,7 +31,6 @@ public class UserServiceImpl implements UserService{
 		User entity = new User();
 		entity.setName(bean.getName());
 		entity.setEmail(bean.getEmail());
-		
 		return ResponseUtils.success(userRepo.save(entity).toBean(),ResponseEnum.SIGNUP_RESPONSE);
 	}
 
@@ -36,9 +38,10 @@ public class UserServiceImpl implements UserService{
 	public GenericRes<?> login(UserBean bean) throws Exception {
 		try {
 			Optional<User> obj = userRepo.findByEmail(bean.getEmail());
-			if(obj.isPresent())
+			if(obj.isPresent()) {
+				groupServiceImpl.updateGroup(obj.get().getId());
 				return ResponseUtils.success(obj.get().toBean(),ResponseEnum.SIGNIN_RESPONSE);
-			else
+			}else
 				return ResponseUtils.error("User doesn't found !!!", ResponseEnum.SIGNIN_RESPONSE,"400");
 		} catch (Exception e) {
 			return ResponseUtils.error("Internal Server Error", ResponseEnum.SIGNIN_RESPONSE,"500");

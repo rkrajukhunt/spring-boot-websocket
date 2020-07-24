@@ -68,7 +68,7 @@ public class MessageController implements ResponseUtils{
 	  return groupService.messageList(bean);
   }
   
-  @MessageMapping("/group.message")
+  @MessageMapping("/send.group.message")
   @SendToUser("/topic/chat_message_status")
   public GenericRes<?> message(@Payload MessageBean bean) throws Exception {
 	  return groupService.sendMessage(bean);

@@ -61,9 +61,10 @@ public class GroupServiceImpl implements GroupService {
 			occupants.setRoom(room);
 			occupants.setUser(persistUser.get());
 			room.setOccupants(Arrays.asList(occupants));
-			return ResponseUtils.success(roomRepo.save(room).toBean(), ResponseEnum.GROUP_RESPONSE);
+			updateGroup(bean.getCreatedBy());
+			return ResponseUtils.success(roomRepo.save(room).toBean(), ResponseEnum.GROUP_CREATE_RESPONSE);
 		} else
-			return ResponseUtils.error("User not found !!!", ResponseEnum.GROUP_RESPONSE);
+			return ResponseUtils.error("User not found !!!", ResponseEnum.GROUP_CREATE_RESPONSE);
 	}
 
 	@Override
@@ -85,6 +86,7 @@ public class GroupServiceImpl implements GroupService {
 				occupants.setRoom(room.get());
 				occupants.setUser(user.get());
 				roomRepo.save(room.get());
+				updateGroup(bean.getUserId());
 				return ResponseUtils.success("successfully joined!!!", ResponseEnum.GROUP_RESPONSE);
 			} else
 				return ResponseUtils.success("something went wrong", ResponseEnum.GROUP_RESPONSE);
@@ -103,8 +105,7 @@ public class GroupServiceImpl implements GroupService {
 			_bean.setUserExsist(check);
 			return _bean;
 		}).collect(Collectors.toList());
-
-		return ResponseUtils.success(found, ResponseEnum.GROUP_RESPONSE);
+		return ResponseUtils.success(found, ResponseEnum.GROUP_LIST_RESPONSE);
 	}
 
 	@Override
@@ -123,6 +124,7 @@ public class GroupServiceImpl implements GroupService {
 				return ResponseUtils.error("something went wrong", ResponseEnum.GROUP_RESPONSE);
 			}else {
 				occupantsRepo.delete(foundId.get());
+				updateGroup(bean.getUserId());
 				return ResponseUtils.success("successfully group leave!!!", ResponseEnum.GROUP_RESPONSE);
 			}
 		} catch (Exception e) {
@@ -133,9 +135,9 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public GenericRes<?> sendMessage(MessageBean bean) throws Exception {
 		Date date = new Date();
-		if(date.getHours() > timeAllow) {
-			return ResponseUtils.error("message not delivered after 10 pm", ResponseEnum.CHAT_STATUS_RESPONSE);
-		}
+//		if(date.getHours() > timeAllow) {
+//			return ResponseUtils.error("message not delivered after 10 pm", ResponseEnum.CHAT_STATUS_RESPONSE);
+//		}
 		
 		Optional<Room> roomOp = roomRepo.findById(bean.getRoomId());
 		if(!roomOp.isPresent())
@@ -165,5 +167,28 @@ public class GroupServiceImpl implements GroupService {
 	public GenericRes<?> messageList(MessageBean bean) throws Exception {
 		List<Message> messages = messageRepo.findByRoomId(bean.getRoomId());
 		return ResponseUtils.success(messages.stream().map(Message::toBean),  ResponseEnum.CHAT_RESPONSE);
+	}
+	
+	public void updateGroup(Long userId) {
+//		//Optional<Occupants> foundId = occupantsRepo.findByUserIdAndRoomId(userId, room.get().getId());
+//		
+//		List<Room> rooms = roomRepo.findByType(RoomType.GROUP);
+//		List<GroupBean> found = rooms.stream().map(room -> {
+//			GroupBean _bean = room.toBean();
+//			boolean check = room.getOccupants().stream().filter(o -> o.getUser().getId().equals(userId))
+//					.findAny().isPresent();
+//			_bean.setUserExsist(check);
+//			return _bean;
+//		}).collect(Collectors.toList());
+//		messageSender.convertAndSend("/topic/group_list",found);
+	}
+	
+	public void updateGroup(Room room) {
+		List<Occupants> rooms = occupantsRepo.findByRoom(room);
+		
+//		rooms.parallelStream().forEach(o->{
+//			//o.get
+//			//messageSender.convertAndSend("/topic/group_list",found);
+//		};
 	}
 }
