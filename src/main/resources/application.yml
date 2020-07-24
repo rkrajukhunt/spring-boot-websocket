@@ -1,0 +1,21 @@
+server:
+  port: 5000
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 3000
+      idle-timeout: 6000
+      maxLifetime: 1800000
+      maximum-pool-size: 5
+    url: jdbc:postgresql://aa14hhv0q5jrw0j.cj4ku8e7fas1.eu-west-2.rds.amazonaws.com/websocket_chat
+    username: websocket
+    password: eb_postgres
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+    show-sql: true
