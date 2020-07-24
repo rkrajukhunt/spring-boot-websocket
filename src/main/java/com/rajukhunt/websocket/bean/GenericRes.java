@@ -19,7 +19,9 @@ public class GenericRes<T> {
 	private String code = "200";
 
 	private String message, description;
-
+	
+	private String type;
+	
 	private T data;
 
 }

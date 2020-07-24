@@ -10,13 +10,16 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
+import com.rajukhunt.websocket.bean.GenericRes;
 import com.rajukhunt.websocket.bean.GroupBean;
+import com.rajukhunt.websocket.bean.ResponseEnum;
 import com.rajukhunt.websocket.bean.UserBean;
 import com.rajukhunt.websocket.service.GroupService;
 import com.rajukhunt.websocket.service.UserService;
+import com.rajukhunt.websocket.utils.ResponseUtils;
 
 @Controller
-public class MessageController {
+public class MessageController implements ResponseUtils{
 
   @Autowired
   private UserService userService;
@@ -24,18 +27,16 @@ public class MessageController {
   @Autowired
   private GroupService groupService;
 
-  @MessageMapping("/user.add")
-  @SendToUser("/topic/register")
-  public UserBean register(@Payload UserBean bean) throws Exception {
-    UserBean _bean = userService.register(bean);
-	return _bean;
+  @MessageMapping("/user.signup")
+  @SendToUser("/topic/websocket_response")
+  public GenericRes<?> register(@Payload UserBean bean) throws Exception {
+    return userService.register(bean);
   }
 
-  @MessageMapping("/user.login")
-  @SendToUser("/topic/login")
-  public UserBean login(@Payload UserBean bean) throws Exception {
-    UserBean _bean = userService.login(bean);
-    return _bean;
+  @MessageMapping("/user.signin")
+  @SendToUser("/topic/websocket_response")
+  public GenericRes<?> login(@Payload UserBean bean) throws Exception {
+    return userService.login(bean);
   }
 
   @MessageMapping("/group.create")
