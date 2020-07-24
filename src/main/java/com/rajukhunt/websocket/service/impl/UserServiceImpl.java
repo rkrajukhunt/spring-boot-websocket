@@ -13,24 +13,25 @@ import com.rajukhunt.websocket.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 
-  @Autowired
-  private UserRepo userRepo;
+	@Autowired
+	private UserRepo userRepo;
 
-  @Override
-  public UserBean register(UserBean bean) throws Exception {
-    Optional<User> userOp = userRepo.findByEmail(bean.getEmail());
-    if (userOp.isPresent()) {
-      throw new Exception("User already exsist.");
-    }
-    User entity = new User();
-    entity.setName(bean.getName());
-    entity.setEmail(bean.getEmail());
-    return userRepo.save(entity).toBean();
-  }
+	@Override
+	public UserBean register(UserBean bean) throws Exception {
+		Optional<User> userOp = userRepo.findByEmail(bean.getEmail());
+		if (userOp.isPresent()) {
+			throw new Exception("User already exsist.");
+		}
+		User entity = new User();
+		entity.setName(bean.getName());
+		entity.setEmail(bean.getEmail());
+		return userRepo.save(entity).toBean();
+	}
 
-  @Override
-  public UserBean login(UserBean bean) throws Exception {
-    return userRepo.findByEmail(bean.getEmail()).orElseThrow(() -> new Exception("User doesn't found !!!")).toBean();
+	@Override
+	public UserBean login(UserBean bean) throws Exception {
+		return userRepo.findByEmail(bean.getEmail()).orElseThrow(() -> new Exception("User doesn't found !!!"))
+				.toBean();
 
-  }
+	}
 }

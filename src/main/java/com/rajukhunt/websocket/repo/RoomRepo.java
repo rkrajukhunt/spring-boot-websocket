@@ -9,6 +9,6 @@ import com.rajukhunt.websocket.model.Room.RoomType;
 
 public interface RoomRepo extends JpaRepository<Room, Long> {
 
-  List<Room> findByType(RoomType type);
+	List<Room> findByType(RoomType type);
 
 }

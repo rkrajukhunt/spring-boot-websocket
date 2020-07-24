@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GenericRes<T> {
 
-  @Default
-  private boolean status = true;
+	@Default
+	private boolean status = true;
 
-  @Default
-  private String code = "200";
+	@Default
+	private String code = "200";
 
-  private String message, description;
+	private String message, description;
 
-  private T data;
+	private T data;
 
 }

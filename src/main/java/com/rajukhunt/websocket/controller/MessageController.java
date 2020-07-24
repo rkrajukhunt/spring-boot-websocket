@@ -28,7 +28,7 @@ public class MessageController {
   @SendToUser("/topic/register")
   public UserBean register(@Payload UserBean bean) throws Exception {
     UserBean _bean = userService.register(bean);
-    return _bean;
+	return _bean;
   }
 
   @MessageMapping("/user.login")

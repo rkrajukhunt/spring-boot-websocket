@@ -21,71 +21,71 @@ import com.rajukhunt.websocket.bean.GroupBean;
 @Table(name = "chat_room")
 public class Room {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  private String title;
-  
-  @Enumerated(EnumType.STRING)
-  private RoomType type;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String title;
 
-  @ManyToOne
-  @JoinColumn(name = "created_by")
-  private User createdBy;
+	@Enumerated(EnumType.STRING)
+	private RoomType type;
 
-  @OneToMany(mappedBy = "room",fetch = FetchType.EAGER ,cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Occupants> occupants;
+	@ManyToOne
+	@JoinColumn(name = "created_by")
+	private User createdBy;
 
-  public enum RoomType {
-    SINGLE, GROUP
-  }
+	@OneToMany(mappedBy = "room", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Occupants> occupants;
 
-  public Long getId() {
-    return id;
-  }
+	public enum RoomType {
+		SINGLE, GROUP
+	}
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+	public Long getId() {
+		return id;
+	}
 
-  public String getTitle() {
-    return title;
-  }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+	public String getTitle() {
+		return title;
+	}
 
-  public RoomType getType() {
-    return type;
-  }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-  public void setType(RoomType type) {
-    this.type = type;
-  }
+	public RoomType getType() {
+		return type;
+	}
 
-  public User getCreatedBy() {
-    return createdBy;
-  }
+	public void setType(RoomType type) {
+		this.type = type;
+	}
 
-  public void setCreatedBy(User createdBy) {
-    this.createdBy = createdBy;
-  }
+	public User getCreatedBy() {
+		return createdBy;
+	}
 
-  public List<Occupants> getOccupants() {
-    return occupants;
-  }
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
 
-  public void setOccupants(List<Occupants> occupants) {
-    this.occupants = occupants;
-  }
+	public List<Occupants> getOccupants() {
+		return occupants;
+	}
 
-  public GroupBean toBean() {
-    GroupBean bean = new GroupBean();
-    bean.setTitle(this.title);
-    bean.setId(this.id);
-    bean.setCreator(this.createdBy.toBean());
-    return bean;
-  }
+	public void setOccupants(List<Occupants> occupants) {
+		this.occupants = occupants;
+	}
+
+	public GroupBean toBean() {
+		GroupBean bean = new GroupBean();
+		bean.setTitle(this.title);
+		bean.setId(this.id);
+		bean.setCreator(this.createdBy.toBean());
+		return bean;
+	}
 
 }

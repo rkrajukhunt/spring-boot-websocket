@@ -8,6 +8,6 @@ import com.rajukhunt.websocket.model.User;
 
 public interface UserRepo extends JpaRepository<User, Long> {
 
-  Optional<User> findByEmail(String email);
+	Optional<User> findByEmail(String email);
 
 }

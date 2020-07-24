@@ -12,40 +12,40 @@ import javax.persistence.Table;
 @Table(name = "occupants")
 public class Occupants {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id")
-  private User user;
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
-  @ManyToOne
-  @JoinColumn(name = "room_id")
-  private Room room;
+	@ManyToOne
+	@JoinColumn(name = "room_id")
+	private Room room;
 
-  public Long getId() {
-    return id;
-  }
+	public Long getId() {
+		return id;
+	}
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-  public User getUser() {
-    return user;
-  }
+	public User getUser() {
+		return user;
+	}
 
-  public void setUser(User user) {
-    this.user = user;
-  }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-  public Room getRoom() {
-    return room;
-  }
+	public Room getRoom() {
+		return room;
+	}
 
-  public void setRoom(Room room) {
-    this.room = room;
-  }
+	public void setRoom(Room room) {
+		this.room = room;
+	}
 
 }
